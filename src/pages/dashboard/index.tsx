@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { api } from "../../services/api"
 import { Card } from "../../components/Card"
 import { ModalContext } from "../../providers/ModalProvider"
-
+import { Modal } from "../../components/Modal"
 
 export interface Contact
  {
@@ -18,7 +18,7 @@ export interface Contact
 
 export const Dashboard = () => {
 
-    const {toggleModal, setIsAddModal} = useContext(ModalContext)
+    const {toggleModal, setIsAddModal, isOpenModal} = useContext(ModalContext)
     const[contacts, setContacts] = useState<Contact[]>([])
     useEffect(() => {
         (async () => {
@@ -43,6 +43,10 @@ export const Dashboard = () => {
             <header>
                 <button type="button" onClick= {() =>{toggleModal(); setIsAddModal(true) }}>Add Contact</button>
             </header>
+
+            {
+            isOpenModal && <Modal setContacts={setContacts} contacts={contacts}/>
+            }
 
             <main>
                 <h3>Active Contacts</h3>

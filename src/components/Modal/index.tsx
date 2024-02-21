@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useRef, useState } from "react"
+import { Dispatch, SetStateAction, useContext, useEffect, useRef} from "react"
 import { Container } from "./styles"
 import { ModalAddContact } from "../ModalAddContact"
 import { Contact } from "../../pages/dashboard"
@@ -10,18 +10,17 @@ import { ModalContext } from "../../providers/ModalProvider"
 interface ModalProps {
     blockClosing?: boolean
     setContacts: Dispatch<SetStateAction<Contact[]>>
-    contact: any
+    contact?: any
     contacts:Contact[]
-    id: string
 }
 
-export const Modal = ({setContacts, blockClosing, contacts, contact, id}: ModalProps) => {
+export const Modal = ({setContacts, blockClosing, contact}: ModalProps) => {
     const {toggleModal, isAddModal, isInfoModal} = useContext(ModalContext)
     const ref = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
         const handleClick = (event: MouseEvent) => {
-            if(!ref.current) {
+            if (!ref.current) {
                 return
             }
 
@@ -29,7 +28,7 @@ export const Modal = ({setContacts, blockClosing, contacts, contact, id}: ModalP
                 return
             }
 
-            if(!ref.current.contains(event.target as HTMLElement)) {
+            if (!ref.current.contains(event.target as HTMLElement)) {
                 toggleModal()
             }
         }
@@ -41,10 +40,9 @@ export const Modal = ({setContacts, blockClosing, contacts, contact, id}: ModalP
         }
     }, [toggleModal])
 
-
     return (
         <Container>
-            <div ref={blockClosing ? null : ref}>
+            <div ref={blockClosing ? null : ref} >
                 {isAddModal && <ModalAddContact toggleModal={toggleModal} setContacts={setContacts}/>}
                 {isInfoModal && <ModalAdditionalInfo contact={contact} />}
             </div>
