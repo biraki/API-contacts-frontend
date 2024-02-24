@@ -1,59 +1,50 @@
-import { useContext, useEffect, useState } from "react"
-import { api } from "../../services/api"
-import { Card } from "../../components/Card"
-import { ModalContext } from "../../providers/ModalProvider"
-import { Modal } from "../../components/Modal"
-
-export interface Contact
- {
-    id: string
-    status: string
-    name: string
-    email: string
-    optionalEmail: string | null
-    phone: string
-    optionalPhone: string | null
-    registeredAt: string
-}
+import { useContext } from "react";
+import { ActiveContactList } from "../../components/ActiveContactList";
+import { InctiveContactList } from "../../components/InactiveContactList";
+import { AddContactModalContext } from "../../providers/AddContactModalProvider";
+import { ModalAddContact } from "../../components/Modal/ModalAddContact";
+import { InfoContactModalContext } from "../../providers/InfoContactModalProvider";
+import { ModalInfoContact } from "../../components/Modal/ModalInfoContact";
+import { UpdateContactModalContext } from "../../providers/UpdateContactModalProvider";
+import { ModalUpdateContact } from "../../components/Modal/ModalUpdateContact";
+import { ContactContext } from "../../providers/ContactProvider";
+import { AuthContext } from "../../providers/AuthProvider";
+import styles from "./styles.module.scss";
 
 export const Dashboard = () => {
+  const { generatePdf } = useContext(ContactContext);
+  const { toggleAddContactModal, isAddContactModalOpen } = useContext(
+    AddContactModalContext
+  );
+  const { isInfoContactModalOpen } = useContext(InfoContactModalContext);
+  const { isUpdateContactModalOpen } = useContext(UpdateContactModalContext);
+  const { userLogout } = useContext(AuthContext)
 
-    const {toggleModal, setIsAddModal, isOpenModal} = useContext(ModalContext)
-    const[contacts, setContacts] = useState<Contact[]>([])
-    useEffect(() => {
-        (async () => {
-            const response = await api.get<Contact[]>("contacts")
-            setContacts(response.data)
-        })()
-        
-    }, [])
-    const renderContact = (contactsToRender: Contact[]) => 
-    contactsToRender.map((contact) => 
-        
-    <Card key={contact.id} setContacts={setContacts} contact={contact} contacts={contacts}/>
-    
-    )
-
-    const activeClient = contacts.filter(active => active.status === "Active")
-    const inactiveClient = contacts.filter(inactive => inactive.status === "Inactive")
-
-
-    return (
-        <div>
-            <header>
-                <button type="button" onClick= {() =>{toggleModal(); setIsAddModal(true) }}>Add Contact</button>
-            </header>
-
-            {
-            isOpenModal && <Modal setContacts={setContacts} contacts={contacts}/>
-            }
-
-            <main>
-                <h3>Active Contacts</h3>
-                <div>{renderContact(activeClient)}</div>
-                <h3>Inactive Contacts</h3>
-                <div>{renderContact(inactiveClient)}</div>
-            </main>
-        </div>
-    )
-}
+  return (
+    <div>
+      <header className={styles.header}>
+        <button
+          className={styles.button}
+          type="button"
+          onClick={() => {
+            toggleAddContactModal();
+          }}
+        >
+          Add Contact
+        </button>
+        <button className={styles.button} type="button" onClick={generatePdf}>Exportar para PDF</button>
+        <button  className={styles.button} type="button" onClick={userLogout}>Logout</button>
+      </header>
+      <main className={styles.section1}>
+        <h2>Contatos</h2>
+        <section className={styles.section2}>
+          <ActiveContactList />
+          <InctiveContactList />
+        </section>
+      </main>
+      {isInfoContactModalOpen && <ModalInfoContact />}
+      {isAddContactModalOpen && <ModalAddContact />}
+      {isUpdateContactModalOpen && <ModalUpdateContact />}
+    </div>
+  );
+};

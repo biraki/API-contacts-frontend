@@ -1,22 +1,25 @@
-import GlobalStyle from './styles/globalStyles'
-import { RoutesMain } from './routes'
-import { AuthProvider } from './providers/AuthProvider'
-import { ModalProvider } from './providers/ModalProvider'
+import GlobalStyle from "./styles/globalStyles";
+import { RoutesMain } from "./routes";
+import { AuthProvider } from "./providers/AuthProvider";
+import { AddContactModalProvider } from "./providers/AddContactModalProvider";
+import { InfoContactModalProvider } from "./providers/InfoContactModalProvider";
+import { UpdateContactModalProvider } from "./providers/UpdateContactModalProvider";
 
 function App() {
-  
-
   return (
     <>
-    <GlobalStyle/>
-      <ModalProvider>
+      <GlobalStyle />
       <AuthProvider>
-        <RoutesMain/>
+          <UpdateContactModalProvider>
+            <InfoContactModalProvider>
+              <AddContactModalProvider>
+                <RoutesMain />
+              </AddContactModalProvider>
+            </InfoContactModalProvider>
+          </UpdateContactModalProvider>
       </AuthProvider>
-      </ModalProvider>
     </>
-
-  )
+  );
 }
 
-export default App
+export default App;

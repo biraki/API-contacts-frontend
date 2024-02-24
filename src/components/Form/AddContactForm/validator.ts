@@ -5,7 +5,7 @@ const phoneRegex = new RegExp(
   );
 
 
-export const schema = z.object({
+export const addContactSchema = z.object({
     email: z.string().email("Email invalido").min(1, "O email é obrigatório"),
     optionalEmail: z.string().nullable().default(null),
     name: z.string().min(1, "O nome é obrigatório"),
@@ -13,4 +13,4 @@ export const schema = z.object({
     optionalPhone: z.string().nullable().default(null)
 })
 
-export type CreateContactData = z.infer<typeof schema>
+export type CreateContactData = z.infer<typeof addContactSchema>

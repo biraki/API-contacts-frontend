@@ -1,4 +1,4 @@
-import { createGlobalStyle } from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 export default createGlobalStyle`
    :root {
@@ -54,9 +54,13 @@ export default createGlobalStyle`
     overflow-x: hidden;
   }
 
-  body, input, button, textarea {
+  body, input, button, textarea, a {
     font-family: 'Inter';
     font-size: 1.6rem;
+  }
+
+  input {
+    color: var(--color-gray-600);
   }
 
   h1, h2, h3, h4, h5, h6, strong{
@@ -65,5 +69,19 @@ export default createGlobalStyle`
 
   button {
     cursor: pointer;
+  }
+
+  a{
+    text-decoration: none;
+  }
+  button, a {
+    background-color: var(--color-gray-200);
+    color: var(--color-gray-700);
+    padding: 0.4rem;
+  }
+  button, a, input{
+    border-radius: 6px;
+    border: 0;
+    outline: none;
   }
 `;

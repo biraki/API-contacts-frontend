@@ -1,51 +1,26 @@
-import { Dispatch, SetStateAction, useContext, useEffect, useRef} from "react"
-import { Container } from "./styles"
-import { ModalAddContact } from "../ModalAddContact"
-import { Contact } from "../../pages/dashboard"
-import { ModalAdditionalInfo } from "../ModalAdditionalInfo"
-import { ModalContext } from "../../providers/ModalProvider"
-
-
+import { ReactNode, RefObject } from "react";
+import { Container } from "./styles";
+import { useOutclick } from "../../hooks/useOutclick";
+import { createPortal } from "react-dom";
 
 interface ModalProps {
-    blockClosing?: boolean
-    setContacts: Dispatch<SetStateAction<Contact[]>>
-    contact?: any
-    contacts:Contact[]
+  children: ReactNode;
+  openModal?: () => void;
 }
 
-export const Modal = ({setContacts, blockClosing, contact}: ModalProps) => {
-    const {toggleModal, isAddModal, isInfoModal} = useContext(ModalContext)
-    const ref = useRef<HTMLDivElement>(null)
+export const Modal = ({ children, openModal }: ModalProps) => {
+  const ref = useOutclick(() => {
+    if (openModal) {
+      openModal();
+    }
+  }) as RefObject<HTMLDivElement>;
 
-    useEffect(() => {
-        const handleClick = (event: MouseEvent) => {
-            if (!ref.current) {
-                return
-            }
-
-            if (!event.target) {
-                return
-            }
-
-            if (!ref.current.contains(event.target as HTMLElement)) {
-                toggleModal()
-            }
-        }
-
-        window.addEventListener("mousedown", handleClick)
-
-        return () => {
-            window.removeEventListener("mousedown", handleClick)
-        }
-    }, [toggleModal])
-
-    return (
-        <Container>
-            <div ref={blockClosing ? null : ref} >
-                {isAddModal && <ModalAddContact toggleModal={toggleModal} setContacts={setContacts}/>}
-                {isInfoModal && <ModalAdditionalInfo contact={contact} />}
-            </div>
-        </Container>
-    )
-}
+  return createPortal(
+    <Container>
+      <div role="dialog" ref={ref}>
+        {children}
+      </div>
+    </Container>,
+    document.body
+  );
+};
