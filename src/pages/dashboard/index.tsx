@@ -1,23 +1,15 @@
 import { useContext } from "react";
 import { ActiveContactList } from "../../components/ActiveContactList";
 import { InctiveContactList } from "../../components/InactiveContactList";
-import { AddContactModalContext } from "../../providers/AddContactModalProvider";
 import { ModalAddContact } from "../../components/Modal/ModalAddContact";
-import { InfoContactModalContext } from "../../providers/InfoContactModalProvider";
 import { ModalInfoContact } from "../../components/Modal/ModalInfoContact";
-import { UpdateContactModalContext } from "../../providers/UpdateContactModalProvider";
-import { ModalUpdateContact } from "../../components/Modal/ModalUpdateContact";
 import { ContactContext } from "../../providers/ContactProvider";
 import { AuthContext } from "../../providers/AuthProvider";
 import styles from "./styles.module.scss";
+import { ModalUpdateContact } from "../../components/Modal/ModalUpdateContact";
 
 export const Dashboard = () => {
-  const { generatePdf } = useContext(ContactContext);
-  const { toggleAddContactModal, isAddContactModalOpen } = useContext(
-    AddContactModalContext
-  );
-  const { isInfoContactModalOpen } = useContext(InfoContactModalContext);
-  const { isUpdateContactModalOpen } = useContext(UpdateContactModalContext);
+  const {toggleAddContactModal, isAddContactModalOpen, isInfoContactModalOpen, isUpdateContactModalOpen, generatePdf} = useContext(ContactContext)
   const { userLogout } = useContext(AuthContext)
 
   return (
@@ -28,6 +20,7 @@ export const Dashboard = () => {
           type="button"
           onClick={() => {
             toggleAddContactModal();
+
           }}
         >
           Add Contact
@@ -43,8 +36,8 @@ export const Dashboard = () => {
         </section>
       </main>
       {isInfoContactModalOpen && <ModalInfoContact />}
-      {isAddContactModalOpen && <ModalAddContact />}
-      {isUpdateContactModalOpen && <ModalUpdateContact />}
+      {isAddContactModalOpen && <ModalAddContact/>}
+      {isUpdateContactModalOpen && <ModalUpdateContact/>}
     </div>
   );
 };

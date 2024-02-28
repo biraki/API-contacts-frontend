@@ -1,7 +1,5 @@
 import { useContext } from "react";
 import { Contact, ContactContext } from "../../providers/ContactProvider";
-import { InfoContactModalContext } from "../../providers/InfoContactModalProvider";
-import { UpdateContactModalContext } from "../../providers/UpdateContactModalProvider";
 import { MdModeEdit } from "react-icons/md";
 import { IoTrashBin } from "react-icons/io5";
 import { IoIosInformationCircle } from "react-icons/io";
@@ -12,10 +10,8 @@ interface ContactCardProps {
 }
 
 export const ContactCard = ({ contact }: ContactCardProps) => {
-  const { deleteContact, setSelectedContact, updateStatus } =
+  const { deleteContact, setSelectedContact, updateStatus, toggleInfoContactModal, toggleUpdateContactModal } =
     useContext(ContactContext);
-  const { toggleInfoContactModal } = useContext(InfoContactModalContext);
-  const { toggleUpdateContactModal } = useContext(UpdateContactModalContext);
 
   return (
     <li className={styles.card1}>

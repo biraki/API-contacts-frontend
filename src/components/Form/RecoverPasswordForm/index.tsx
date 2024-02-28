@@ -4,7 +4,7 @@ import { userAuth } from "../../../hooks/useAuth";
 import { Input } from "../Input";
 import styles from "./styles.module.scss";
 import { RecoverPasswordData, recoverPasswordSchema } from "./validator";
-import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const RecoverPasswordForm = () => {
   const { recoverPassword } = userAuth();
@@ -15,12 +15,9 @@ export const RecoverPasswordForm = () => {
   } = useForm<RecoverPasswordData>({
     resolver: zodResolver(recoverPasswordSchema),
   });
-  const navigate = useNavigate()
 
-  
   const submit = (data: RecoverPasswordData) => {
     recoverPassword(data)
-    navigate("/")
   };
 
   return (
@@ -33,7 +30,7 @@ export const RecoverPasswordForm = () => {
         placeholder="Digite seu e-mail"
         {...register("email")}
       />
-      {errors.email && <p>{errors.email.message}</p>}
+      {errors.email && toast.error(errors.email.message)}
       <button type="submit" className={styles.button1}>
         Enviar
       </button>

@@ -4,6 +4,9 @@ import { useNavigate } from "react-router-dom";
 import { api } from "../services/api";
 import { RegisterData } from "../components/Form/RegisterForm/validator";
 import { RecoverPasswordData } from "../components/Form/RecoverPasswordForm/validator";
+import { toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ResetPassordRequest, ResetPasswordData } from "../components/Form/ResetPasswordForm/validator";
 
 interface AuthProviderProps {
   children: ReactNode;
@@ -16,7 +19,8 @@ interface AuthContextValues {
   userLogout: () => void;
   isErrorModalOpen: boolean;
   setIsErrorModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  recoverPassword: (data: RecoverPasswordData) => void
+  recoverPassword: (data: RecoverPasswordData) => void;
+  resetPassword: (data: ResetPassordRequest, tokenUrl: string) => void;
 }
 
 export const AuthContext = createContext<AuthContextValues>(
@@ -44,9 +48,10 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
       const { token } = response.data;
       api.defaults.headers.common.Authorization = `Beares ${token}`;
       localStorage.setItem("@token", token);
+      toast.success("Login realizado com sucesso")
       navigate("dashboard");
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      (error.message && toast.error("E-mail ou senha incorretos"));
     }
   };
 
@@ -55,6 +60,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
     try {
       await api.post("/users", registerData);
+      toast.success("Cadastro realizado com sucesso")
     } catch (error) {
       console.log(error);
     }
@@ -69,8 +75,23 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const recoverPassword = async (data: RecoverPasswordData) => {
     try {
       await api.post("/password", data);
+      toast.success("O link foi enviado para o e-mail cadastrado")
+      navigate("/")
     } catch (error) {
       console.log(error);
+      toast.error("Email invalido")
+    }
+  }
+
+  const resetPassword = async (data: ResetPassordRequest, tokenUrl: string) => {
+    console.log(data)
+    try {
+      await api.patch(`/password/${tokenUrl}`, data)
+      toast.success("A senha foi alterada com sucesso")
+      navigate("/")
+    }  catch (error) {
+      console.log(error);
+      toast.error("Senha invalida")
     }
   }
 
@@ -83,7 +104,8 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         userLogout,
         isErrorModalOpen,
         setIsErrorModalOpen,
-        recoverPassword
+        recoverPassword,
+        resetPassword
       }}
     >
       {children}

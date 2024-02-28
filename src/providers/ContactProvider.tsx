@@ -8,6 +8,8 @@ import {
 import { api } from "../services/api";
 import { CreateContactData } from "../components/Form/AddContactForm/validator";
 import { UpdateContactData } from "../components/Form/UpdateContactForm/validator";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export interface Contact {
   id: string;
@@ -44,6 +46,12 @@ interface ContactContextValues {
     contact: Contact
   ) => void;
   generatePdf: () => void;
+  isAddContactModalOpen: boolean;
+  toggleAddContactModal: () => void;
+  isInfoContactModalOpen: boolean;
+  toggleInfoContactModal: () => void;
+  toggleUpdateContactModal: () => void;
+  isUpdateContactModalOpen: boolean;
 }
 
 export const ContactContext = createContext<ContactContextValues>(
@@ -54,6 +62,10 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   const [contact, setContact] = useState<Contact>();
   const [selectedContact, setSelectedContact] = useState<Contact>();
+  const [isAddContactModalOpen, setIsAddContactModalOpen] = useState(false);
+  const [isInfoContactModalOpen, setIsInfoContactModalOpen] = useState(false);
+  const [isUpdateContactModalOpen, setIsUpdateContactModalOpen] =
+    useState(false);
 
   const activeContacts = contacts.filter(
     (contact) => contact.status === "Active"
@@ -77,6 +89,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
       const response = await api.post("/contacts", data);
       setContacts((previousContacts) => [response.data, ...previousContacts]);
       closeFunction();
+      toast.success("Contato adicionado com sucesso");
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +102,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         (contact) => contact.id !== deleteId
       );
       setContacts(newContactList);
+      toast.success("Contato deletado com sucesso");
     } catch (error) {
       console.log(error);
     }
@@ -108,6 +122,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         )
       );
       closeFunction();
+      toast.success("Contato atualizado com sucesso");
     } catch (error) {
       console.log(error);
     }
@@ -137,6 +152,19 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     link.href = URL.createObjectURL(pdfBlob);
     link.download = "Contatos.pdf";
     link.click();
+    toast.success("Pdf gerado com secusso");
+  };
+
+  const toggleAddContactModal = () => {
+    setIsAddContactModalOpen(!isAddContactModalOpen);
+  };
+
+  const toggleInfoContactModal = () => {
+    setIsInfoContactModalOpen(!isInfoContactModalOpen);
+  };
+
+  const toggleUpdateContactModal = () => {
+    setIsUpdateContactModalOpen(!isUpdateContactModalOpen);
   };
 
   return (
@@ -154,6 +182,12 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
         inactiveContacts,
         updateStatus,
         generatePdf,
+        isAddContactModalOpen,
+        toggleAddContactModal,
+        toggleInfoContactModal,
+        isInfoContactModalOpen,
+        toggleUpdateContactModal,
+        isUpdateContactModalOpen,
       }}
     >
       {children}

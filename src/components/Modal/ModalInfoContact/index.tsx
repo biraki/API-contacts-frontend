@@ -1,12 +1,10 @@
 import { useContext } from "react";
 import { Modal } from "..";
-import { InfoContactModalContext } from "../../../providers/InfoContactModalProvider";
 import { ContactContext } from "../../../providers/ContactProvider";
 import styles from "./styles.module.scss";
 
 export const ModalInfoContact = () => {
-  const { toggleInfoContactModal } = useContext(InfoContactModalContext);
-  const { selectedContact } = useContext(ContactContext);
+  const { selectedContact, toggleInfoContactModal } = useContext(ContactContext);
 
   return (
     <Modal openModal={toggleInfoContactModal}>

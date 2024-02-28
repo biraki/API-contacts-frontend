@@ -1,11 +1,10 @@
 import { useContext } from "react";
-
 import { Modal } from "..";
-import { AddContactModalContext } from "../../../providers/AddContactModalProvider";
 import { AddContactForm } from "../../Form/AddContactForm";
+import { ContactContext } from "../../../providers/ContactProvider";
 
 export const ModalAddContact = () => {
-  const { toggleAddContactModal } = useContext(AddContactModalContext);
+  const { toggleAddContactModal } = useContext(ContactContext);
 
   return (
     <Modal openModal={toggleAddContactModal}>

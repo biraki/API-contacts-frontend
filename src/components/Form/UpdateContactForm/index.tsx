@@ -4,12 +4,11 @@ import { UpdateContactData, updateContactSchema } from "./validator";
 import { Input } from "../Input";
 import { ContactContext } from "../../../providers/ContactProvider";
 import { useContext } from "react";
-import { UpdateContactModalContext } from "../../../providers/UpdateContactModalProvider";
 import styles from "./styles.module.scss";
 
 export const UpdateContactForm = () => {
-  const { updateContact, selectedContact } = useContext(ContactContext);
-  const { toggleUpdateContactModal } = useContext(UpdateContactModalContext);
+  const { updateContact, selectedContact, toggleUpdateContactModal } =
+    useContext(ContactContext);
   const {
     register,
     handleSubmit,
@@ -21,8 +20,8 @@ export const UpdateContactForm = () => {
       email: selectedContact?.email,
       optionalEmail: selectedContact?.optionalEmail,
       phone: selectedContact?.phone,
-      optionalPhone: selectedContact?.optionalPhone
-    }
+      optionalPhone: selectedContact?.optionalPhone,
+    },
   });
 
   const submit = (data: UpdateContactData) => {
@@ -76,7 +75,9 @@ export const UpdateContactForm = () => {
         {...register("optionalPhone")}
       />
       {errors.optionalPhone && <p>{errors.optionalPhone.message}</p>}
-      <button type="submit" className={styles.button1}>Editar</button>
+      <button type="submit" className={styles.button1}>
+        Editar
+      </button>
     </form>
   );
 };

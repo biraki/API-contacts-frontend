@@ -1,0 +1,27 @@
+.section1 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 30px;
+}
+
+.section1 {
+  padding: 2pc 8pc;
+}
+
+.box2 {
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 2pc;
+  display: flex;
+  flex-direction: column;
+}
+
+.button1 {
+  box-sizing: border-box;
+  width: 200px;
+  text-align: center;
+  padding: 2% 40%;
+}
+

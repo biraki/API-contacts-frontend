@@ -3,13 +3,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { CreateContactData, addContactSchema } from "./validator";
 import { Input } from "../Input";
 import { ContactContext } from "../../../providers/ContactProvider";
-import { useContext } from "react";
-import { AddContactModalContext } from "../../../providers/AddContactModalProvider";
 import styles from "./styles.module.scss";
+import { useContext } from "react";
 
 export const AddContactForm = () => {
   const { addContact } = useContext(ContactContext);
-  const { toggleAddContactModal } = useContext(AddContactModalContext);
+  const { toggleAddContactModal } = useContext(ContactContext);
   const {
     register,
     handleSubmit,

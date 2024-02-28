@@ -1,10 +1,10 @@
 import { useContext } from "react";
 import { Modal } from "..";
-import { UpdateContactModalContext } from "../../../providers/UpdateContactModalProvider";
 import { UpdateContactForm } from "../../Form/UpdateContactForm";
+import { ContactContext } from "../../../providers/ContactProvider";
 
 export const ModalUpdateContact = () => {
-  const { toggleUpdateContactModal } = useContext(UpdateContactModalContext);
+  const { toggleUpdateContactModal } = useContext(ContactContext);
 
   return (
     <Modal openModal={toggleUpdateContactModal}>
