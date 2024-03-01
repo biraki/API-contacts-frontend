@@ -74,11 +74,6 @@ export default createGlobalStyle`
   a{
     text-decoration: none;
   }
-  button, a {
-    background-color: var(--color-gray-200);
-    color: var(--color-gray-700);
-    padding: 0.4rem;
-  }
   button, a, input{
     border-radius: 6px;
     border: 0;

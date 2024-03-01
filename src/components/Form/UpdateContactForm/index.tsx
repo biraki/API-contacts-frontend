@@ -25,7 +25,8 @@ export const UpdateContactForm = () => {
   });
 
   const submit = (data: UpdateContactData) => {
-    updateContact(data, selectedContact!.id, toggleUpdateContactModal);
+    updateContact(data, selectedContact!.id);
+    toggleUpdateContactModal();
   };
 
   return (

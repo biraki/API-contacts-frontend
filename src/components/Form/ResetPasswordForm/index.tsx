@@ -1,14 +1,20 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { userAuth } from "../../../hooks/useAuth";
 import styles from "./styles.module.scss";
-import { ResetPassordRequest, ResetPasswordData, resetPasswordSchema } from "./validator";
+import {
+  ResetPassordRequest,
+  ResetPasswordData,
+  resetPasswordSchema,
+} from "./validator";
 import { InputPassword } from "../InputPassword";
 import { useParams } from "react-router-dom";
+import { UserContext } from "../../../providers/UserProvider";
+import { useContext } from "react";
 
 export const ResetPasswordForm = () => {
-  const { token } = useParams()
-  const { resetPassword } = userAuth();
+  const { token } = useParams();
+  const { resetPassword } = useContext(UserContext);
+
   const {
     register,
     handleSubmit,
@@ -18,7 +24,7 @@ export const ResetPasswordForm = () => {
   });
 
   const submit = (data: ResetPassordRequest) => {
-    resetPassword(data, token!)
+    resetPassword(data, token!);
   };
 
   return (

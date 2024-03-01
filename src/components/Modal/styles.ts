@@ -16,6 +16,6 @@ export const Container = styled.div`
     padding: 20px;
     box-shadow: 0  0 25px 0 rgba(0,0,0,.25);
     width: 100%;
-    max-width: 250px;
+    max-width: 400px;
   }
   `

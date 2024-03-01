@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 const phoneRegex = new RegExp(
-  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9])+$/
+  /^([+]?[\s0-9]+)?(\d{3}|[(]?[0-9]+[)])?([-]?[\s]?[0-9]){8,}$/
 );
 
 const passwordRegex = new RegExp(
@@ -13,7 +13,7 @@ export const registerSchema = z
     email: z.string().email("Email invalido").min(1, "O email é obrigatório"),
     password: z
       .string()
-      .regex(passwordRegex, "A senha deve conter pelo menos um caractere especial, uma letra maiúscula e um número")
+      .regex(passwordRegex, "Senha invalida")
       .min(1, "A senha é obrigatória"),
     name: z.string().min(1, "O nome é obrigatório"),
     phone: z

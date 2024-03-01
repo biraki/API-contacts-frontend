@@ -17,3 +17,10 @@
   justify-content: space-evenly;
 
 }
+
+button, a {
+  background-color: var(--color-gray-200);
+  color: var(--color-gray-700);
+  padding: 0.4rem;
+  max-width: 200px;
+}

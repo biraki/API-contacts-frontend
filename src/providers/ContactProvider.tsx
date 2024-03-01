@@ -27,13 +27,9 @@ interface ContactProviderProps {
 }
 
 interface ContactContextValues {
-  addContact: (data: CreateContactData, closeFunction: () => void) => void;
+  addContact: (data: CreateContactData) => void;
   deleteContact: (deleteId: string) => void;
-  updateContact: (
-    data: UpdateContactData,
-    contactId: string,
-    closeFunction: () => void
-  ) => void;
+  updateContact: (data: UpdateContactData, contactId: string) => void;
   contacts: Contact[];
   contact: Contact | undefined;
   setContact: React.Dispatch<React.SetStateAction<Contact | undefined>>;
@@ -81,14 +77,10 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     })();
   }, []);
 
-  const addContact = async (
-    data: CreateContactData,
-    closeFunction: () => void
-  ) => {
+  const addContact = async (data: CreateContactData) => {
     try {
       const response = await api.post("/contacts", data);
       setContacts((previousContacts) => [response.data, ...previousContacts]);
-      closeFunction();
       toast.success("Contato adicionado com sucesso");
     } catch (error) {
       console.log(error);
@@ -108,11 +100,7 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
     }
   };
 
-  const updateContact = async (
-    data: UpdateContactData,
-    contactId: string,
-    closeFunction: () => void
-  ) => {
+  const updateContact = async (data: UpdateContactData, contactId: string) => {
     try {
       const response = await api.patch(`/contacts/${contactId}`, data);
 
@@ -121,7 +109,6 @@ export const ContactProvider = ({ children }: ContactProviderProps) => {
           contactId === previusContact.id ? response.data : previusContact
         )
       );
-      closeFunction();
       toast.success("Contato atualizado com sucesso");
     } catch (error) {
       console.log(error);

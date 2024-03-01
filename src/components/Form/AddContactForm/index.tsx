@@ -16,7 +16,8 @@ export const AddContactForm = () => {
   } = useForm<CreateContactData>({ resolver: zodResolver(addContactSchema) });
 
   const submit = (data: CreateContactData) => {
-    addContact(data, toggleAddContactModal);
+    addContact(data);
+    toggleAddContactModal()
   };
 
   return (

@@ -1,13 +1,14 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { userAuth } from "../../../hooks/useAuth";
 import { Input } from "../Input";
 import styles from "./styles.module.scss";
 import { RecoverPasswordData, recoverPasswordSchema } from "./validator";
 import { toast } from "react-toastify";
+import { useContext } from "react";
+import { UserContext } from "../../../providers/UserProvider";
 
 export const RecoverPasswordForm = () => {
-  const { recoverPassword } = userAuth();
+  const { recoverPassword } = useContext(UserContext);
   const {
     register,
     handleSubmit,
