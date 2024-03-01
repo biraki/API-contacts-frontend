@@ -10,8 +10,13 @@ interface ContactCardProps {
 }
 
 export const ContactCard = ({ contact }: ContactCardProps) => {
-  const { deleteContact, setSelectedContact, updateStatus, toggleInfoContactModal, toggleUpdateContactModal } =
-    useContext(ContactContext);
+  const {
+    deleteContact,
+    setSelectedContact,
+    updateStatus,
+    toggleInfoContactModal,
+    toggleUpdateContactModal,
+  } = useContext(ContactContext);
 
   return (
     <li className={styles.card1}>
@@ -31,6 +36,7 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
           <option value={"Inactive"}>Inactive</option>
         </select>
         <button
+          className={styles.button1}
           onClick={() => {
             toggleUpdateContactModal();
             setSelectedContact(contact);
@@ -39,6 +45,7 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
           <MdModeEdit />
         </button>
         <button
+          className={styles.button1}
           onClick={() => {
             toggleInfoContactModal();
             setSelectedContact(contact);
@@ -46,7 +53,12 @@ export const ContactCard = ({ contact }: ContactCardProps) => {
         >
           <IoIosInformationCircle />
         </button>
-        <button onClick={() => deleteContact(contact.id)}><IoTrashBin /></button>
+        <button
+          className={styles.button1}
+          onClick={() => deleteContact(contact.id)}
+        >
+          <IoTrashBin />
+        </button>
       </div>
     </li>
   );
